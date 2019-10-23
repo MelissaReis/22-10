@@ -1,0 +1,53 @@
+enable
+configure terminal
+hostname RT-21
+enable secret SenhadaEnable
+username Danieljesus privilege 15 secret Madagascar
+username Filipemondoni privilege 15 secret Madagascar
+username IanSimim privilege 15 secret Madagascar
+username Melissareis privilege 15 secret Madagascar
+username Renanaraujo privilege 15 secret Madagascar 
+ip domain-name rede2.local
+crypto key generate rsa general-keys modulus 1024
+security passwords min-length 8
+login block-for 240 attempts 7 within 10
+line vty 0 15
+login local
+transport input ssh
+exec-timeout 5
+exit
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+interface GigabitEthernet 0/0
+no shutdown
+exit
+interface g0/0.10
+encapsulation dot1q 10
+ip add 172.16.2.65 255.255.255.192
+description VLAN 10
+ip helper-address 172.16.1.165
+interface g0/0.20
+encapsulation dot1q 20
+ip add 172.16.2.1 255.255.255.192
+description VLAN 20
+ip helper-address 172.16.1.165
+interface g0/0.30
+encapsulation dot1q 30
+ip add 172.16.2.129 255.255.255.224
+description VLAN 30
+ip helper-address 172.16.1.165
+interface g0/0.100
+encapsulation dot1q 100
+ip add 172.16.2.161 255.255.255.224
+description VLAN 100
+ip helper-address 172.16.1.165
+interface serial 0/0/0
+ip add 200.18.189.1 255.255.255.252 
+description CONEXÃO COM O RT-11
+no shutdown
+exit
+ip route 172.16.0.0 255.255.254.0 200.18.189.2
+do wr
